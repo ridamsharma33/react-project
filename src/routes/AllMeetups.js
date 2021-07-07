@@ -16,7 +16,7 @@ function AllMeetups() {
 			.then((data) => {
 				const meetups = [];
 
-				for (const key in date) {
+				for (const key in data) {
 					const meetup = {
 						id: key,
 						...data[key],
@@ -33,7 +33,7 @@ function AllMeetups() {
 	if (loading) {
 		return (
 			<section>
-				<p>Loading...</p>
+				<p>Wait for it...</p>
 			</section>
 		);
 	}

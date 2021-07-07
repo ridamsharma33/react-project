@@ -1,21 +1,41 @@
-import React from "react";
+import React, { useContext } from "react";
 import classes from "./MeetupItem.module.css";
 import Card from "../ui/Card";
+import FavoritesContext from "../../store/favorites-context";
 
-function MeetupItem(props) {
+function MeetupItem({ id, title, description, image, address }) {
+	const favoritesContext = useContext(FavoritesContext);
+	const isFavorite = favoritesContext.isFavorite(id);
+
+	function favoriteStatusHandler() {
+		if (isFavorite) {
+			favoritesContext.removeFavorite(id);
+		} else {
+			favoritesContext.addFavorite({
+				id,
+				title,
+				description,
+				image,
+				address,
+			});
+		}
+	}
+
 	return (
 		<li className={classes.item}>
 			<Card>
 				<div className={classes.image}>
-					<img src={props.image} alt={props.title} />
+					<img src={image} alt={title} />
 				</div>
 				<div className={classes.content}>
-					<h3>{props.title}</h3>
-					<address>{props.address}</address>
-					<p>{props.description}</p>
+					<h3>{title}</h3>
+					<address>{address}</address>
+					<p>{description}</p>
 				</div>
-				<div>
-					<button className={classes.actions}>Add to Favorites</button>
+				<div className={classes.actions}>
+					<button onClick={favoriteStatusHandler}>
+						{isFavorite ? "Remove from Favorites" : "Add to Favorites"}
+					</button>
 				</div>
 			</Card>
 		</li>
